@@ -8,7 +8,7 @@ import Game.Rules
 spec :: Spec
 spec = do
 
-  describe "testing" $ do
+  describe "Game Rules" $ do
 
-    it "does something" $ do
-      hi "hello" `shouldBe` 1
+    it "finds a winner" $ do
+      isWinner (Board 1 [[Empty]])`shouldBe` True
