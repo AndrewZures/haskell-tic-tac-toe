@@ -1,14 +1,24 @@
 module Game.Rules where
 
-data Square = Empty | Player String deriving (Eq, Show)
+import qualified Data.List as List
 
-type BoardColumn = [Square]
-type BoardState = [BoardColumn]
-type BoardSize = Int
-data Board = Board BoardSize BoardState
+data Player = Player1 | Player2 deriving (Eq, Show)
+data Square = Empty | Filled Player deriving (Eq, Show)
+
+type Board = [[Square]]
+
+winner :: Board -> Bool
+winner board = or $ isWinner <$> [board, List.transpose board, diag board]
 
 isWinner :: Board -> Bool
-isWinner (Board _ state) = or $ fmap findWinner state
+isWinner vectors = or $ fmap findWinner vectors
 
 findWinner :: [Square] -> Bool
-findWinner = all (==Empty)
+findWinner squares = head set /= Empty && length set == 1
+  where set = List.nub squares
+
+diag :: Board -> Board
+diag board = [
+  zipWith (!!) board [0..],
+  zipWith (!!) board [(length board - 1),(length board - 2)..]
+  ]
