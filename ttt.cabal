@@ -1,13 +1,13 @@
 name:                ttt
 version:             0.1.0.0
-synopsis:            Initial project template from stack, using hspec and quickcheck
+synopsis:            Simple Tic Tac Toe Game
 description:         Please see README.md
 homepage:            https://github.com/githubuser/ttt#readme
 license:             BSD3
 license-file:        LICENSE
-author:              Author name here
+author:              Andrew Zures
 maintainer:          example@example.com
-copyright:           2016 Author name here
+copyright:           2016 Andrew Zures
 category:            Web
 build-type:          Simple
 -- extra-source-files:
