@@ -8,17 +8,21 @@ data Square = Empty | Filled Player deriving (Eq, Show)
 type Board = [[Square]]
 
 winner :: Board -> Bool
-winner board = or $ isWinner <$> [board, List.transpose board, diag board]
+winner board = or $ isWinner <$> [rows, columns, diagonals]
+  where rows = board
+        columns = List.transpose board
+        diagonals = diag board
 
 isWinner :: Board -> Bool
 isWinner vectors = or $ fmap findWinner vectors
 
 findWinner :: [Square] -> Bool
-findWinner squares = head set /= Empty && length set == 1
+findWinner squares = length set == 1 && head set /= Empty
   where set = List.nub squares
 
 diag :: Board -> Board
 diag board = [
   zipWith (!!) board [0..],
-  zipWith (!!) board [(length board - 1),(length board - 2)..]
+  zipWith (!!) board [lastIdx, (lastIdx-1)..]
   ]
+  where lastIdx = length board - 1
