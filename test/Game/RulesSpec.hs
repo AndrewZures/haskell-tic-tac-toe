@@ -4,6 +4,7 @@ import Test.Hspec
 import Test.QuickCheck
 
 import Game.Rules
+import Game.Board
 
 spec :: Spec
 spec = do
@@ -11,7 +12,8 @@ spec = do
   describe "Game Rules" $ do
 
     it "finds winner for rows" $ do
-      1 `shouldBe` 1
+      let emptyBoard = newBoard 3 3
+      (hasWinner emptyBoard) `shouldBe` False
 
       -- hasWinner [
   --       replicate 3 (Filled Player1),

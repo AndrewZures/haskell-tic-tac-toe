@@ -1,10 +1,7 @@
 module Game.Board where
 
-import Game.Rules
 import Data.Matrix
-
-type Board = Matrix Square
-type Position = (Int, Int)
+import Game.Constants
 
 newBoard :: Int -> Int -> Board
 newBoard numRows numCols = matrix numRows numRows $ const Empty

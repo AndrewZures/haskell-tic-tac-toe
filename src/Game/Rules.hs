@@ -1,11 +1,7 @@
 module Game.Rules where
 
-import qualified Data.List as List
 
-data Player = Player1 | Player2 deriving (Eq, Show)
-data Square = Empty | Filled Player deriving (Eq, Show)
-
-
+hasWinner x = False
 -- hasWinner :: Board -> Bool
 -- hasWinner board = or $ isWinner <$> [rows, columns, diagonals]
 --   where rows = board

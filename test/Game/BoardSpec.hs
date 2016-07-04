@@ -4,7 +4,7 @@ import Test.Hspec
 import Test.QuickCheck
 
 import Data.Matrix
-import Game.Rules
+import Game.Constants
 import Game.Board
 
 spec :: Spec
