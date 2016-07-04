@@ -26,3 +26,7 @@ spec = do
       (get (1,1) board) `shouldBe` Filled Player1
       let updatedBoard = remove (1,1) board
       (get (1,1) updatedBoard) `shouldBe` Empty
+
+    it "returns open positions for a board" $ do
+      let board = insert Player1 (1,1) $ newBoard 3 3
+      openPositions board `shouldBe` []

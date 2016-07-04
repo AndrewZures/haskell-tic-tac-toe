@@ -18,6 +18,7 @@ library
   exposed-modules:     Game.Rules
                      , Game.Board
                      , Game.Constants
+                     , Game.Ai
   build-depends:       base >= 4.7 && < 5
                       , matrix
                       , vector
