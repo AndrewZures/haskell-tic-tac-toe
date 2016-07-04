@@ -1,10 +1,13 @@
 module Game.Board where
 
-import Data.Matrix
+import Data.Matrix (matrix, setElem, (!))
 import Game.Constants
 
 newBoard :: Int -> Int -> Board
-newBoard numRows numCols = matrix numRows numRows $ const Empty
+newBoard numRows numCols = customBoard numRows numRows $ const Empty
+
+customBoard :: Int -> Int -> ((Int,Int) -> Square) -> Board
+customBoard = matrix
 
 insert :: Player -> Position -> Board -> Board
 insert player = setElem (Filled player)
