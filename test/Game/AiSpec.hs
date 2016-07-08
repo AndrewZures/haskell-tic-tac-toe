@@ -12,5 +12,23 @@ spec :: Spec
 spec = do
   describe "Game AI" $ do
 
+    -- it "handles a full board" $ do
+    --   let board = customBoard 3 3 (\_ -> Filled Player2)
+    --   makeMove Player1 board `shouldBe` (0,0)
+    --
     it "chooses winning position" $ do
-      1 `shouldBe` 1
+      let board = customBoard 3 3 (\(i,j) -> if i == 1 && j == 1 then Empty else Filled Player1)
+      makeMove Player2 board `shouldBe` (1,1)
+
+    it "blocks win" $ do
+      let board = foldr (\b agg -> insert agg Player1 b) (newBoard 3 3) [(1,1),(1,2)]
+      makeMove Player2 board `shouldBe` (1,3)
+
+    it "stuff" $ do
+      let board = foldr (\b agg -> insert agg Player2 b) (newBoard 3 3) [(1,1),(1,2)]
+      makeMove Player2 board `shouldBe` (1,3)
+
+    it "stuff" $ do
+      let board = foldr (\b agg -> insert agg Player2 b) (newBoard 3 3) [(1,1),(3,3)]
+      let updated = foldr (\b agg -> insert agg Player1 b) board [(2,2)]
+      makeMove Player1 updated `shouldBe` (1,3)

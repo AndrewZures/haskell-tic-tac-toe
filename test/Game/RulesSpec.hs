@@ -37,7 +37,7 @@ spec = do
       (winStatus NoWin <$> columns board) `shouldBe` [NoWin, NoWin, Win Player1]
 
       let board = customBoard 3 3 (\(i,j) -> if j == 3 then Filled Player1 else Empty)
-      let updated = insert Player2 (1,3) board
+      let updated = insert board Player2 (1,3)
       (winStatus NoWin <$> columns updated) `shouldBe` [NoWin, NoWin, NoWin]
 
     it "winStatus works for main diagonal" $ do
@@ -46,5 +46,5 @@ spec = do
 
     it "winStatus works for second diagonal" $ do
       let board = newBoard 3 3
-      let updated = foldl (\new pos -> insert Player1 pos new) board [(1,3), (2,2), (3,1)]
+      let updated = foldl (\new pos -> insert new Player1 pos) board [(1,3), (2,2), (3,1)]
       (winStatus NoWin <$> diagonals updated) `shouldBe` [NoWin, Win Player1]

@@ -5,38 +5,28 @@ import qualified Game.Board as Board
 import qualified Game.Rules as Rules
 
 -- TODO
--- have Rules take aboard and return a board status : Winner Player | Tied | InProgress
 -- review minimax alg, show be a guard statement with board statuses at some point
 
-type ScoredPosition = (Int, Position)
+type ScoredPosition = (Double, Position)
 
--- makeMove :: Player -> Board -> Position -> Position
--- makeMove player board position = findBestMove player board 0
+-- makeMove :: Player -> Board -> Position
+makeMove player board = snd $ bestScore $ zip (scorePossibleMoves player 1 board) (Board.openPositions board)
 
-findBestMove :: Player -> Int -> Board -> [Int]
-findBestMove player depth board = map (scoreMove player depth board) $ Board.openPositions board
+scorePossibleMoves :: Player -> Double -> Board -> [Double]
+scorePossibleMoves player depth board =
+  insertAndScore board player depth <$> Board.openPositions board
 
-scoreMove :: Player -> Int -> Board -> Position -> Int
-scoreMove player depth board position = minimum $ findBestMove nextPlayer nextDepth updatedBoard
-  where nextDepth = depth+1
-        updatedBoard = Board.insert player position board
-        nextPlayer = Board.nextPlayer player
+insertAndScore :: Board -> Player -> Double -> Position -> Double
+insertAndScore board player depth position =
+  scoreMove player depth $ Board.insert board player position
 
--- scorePossibleMoves player depth board =
---   map scoreMove player depth $ Board.insert player board $ Board.openPositions board
-  -- find open positions, add respective positions to respective boards, scoreBoards
---
--- scoreMove' player depth board
---   case boardStatus in
---     Winner player -> depth
---     Tie -> 0
---     InProgress -> findBestMove nextPlayer nextDepth nextBoard
---   where boardStatus = Board.boardStatus board
+scoreMove :: Player -> Double -> Board -> Double
+scoreMove player depth board =
+  case boardStatus of
+    Win player -> 1 / depth
+    Tied -> 0
+    NoWin -> negate $ maximum $ scorePossibleMoves (Board.nextPlayer player) (depth+1) board
+  where boardStatus = Rules.boardStatus board
 
-
-  -- update board
-  -- increase depth
-  -- change player
-  -- score with updated stuff
-
-  -- score is depth if winner, zero if tie, recurse if neither
+bestScore :: [ScoredPosition] -> ScoredPosition
+bestScore = foldl (\score best -> if fst score > fst best then score else best) (-100000000000, (0,0))

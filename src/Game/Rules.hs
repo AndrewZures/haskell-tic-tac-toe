@@ -7,8 +7,6 @@ import Data.Vector (Vector)
 
 import Game.Constants
 
-data BoardStatus = Win Player | NoWin | Tied deriving (Eq, Show)
-
 boardStatus :: Board -> BoardStatus
 boardStatus board
   | winStatus /= NoWin   = winStatus
