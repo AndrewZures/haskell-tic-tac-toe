@@ -22,3 +22,7 @@ remove = setElem Empty
 
 get :: Position -> Board -> Square
 get position board = board ! position
+
+nextPlayer :: Player -> Player
+nextPlayer Player1 = Player2
+nextPlayer _       = Player1

@@ -2,23 +2,38 @@ module Game.Rules where
 
 import qualified Data.Matrix as Matrix
 import qualified Data.Vector as Vector
+import qualified Game.Board as Board
 import Data.Vector (Vector)
 
 import Game.Constants
 
-hasWinner :: Board -> Bool
-hasWinner board = foldl (\agg x -> agg || isWinner x) False d
-  where d = concat [rows board, columns board, diagonals board]
+data BoardStatus = Win Player | NoWin | Tied deriving (Eq, Show)
 
-isWinner :: Vector Square -> Bool
-isWinner = isWinner' . Vector.toList
+boardStatus :: Board -> BoardStatus
+boardStatus board
+  | winStatus /= NoWin   = winStatus
+  | isTie board          = Tied
+  | otherwise            = NoWin
+  where winStatus = winState board
 
-isWinner' :: [Square] -> Bool
-isWinner' [x] = True
-isWinner' (x:y:xs)
-  | x == Empty  = False
-  | y /= x      = False
-  | otherwise   = isWinner' (y:xs)
+isTie :: Board -> Bool
+isTie = null . Board.openPositions
+
+winState :: Board -> BoardStatus
+winState board = foldl winStatus NoWin chunks
+  where chunks = concat [rows board, columns board, diagonals board]
+
+winStatus :: BoardStatus -> Vector Square -> BoardStatus
+winStatus status chunk
+  | status == NoWin  = checkForWin $ Vector.toList chunk
+  | otherwise        = status
+
+checkForWin :: [Square] -> BoardStatus
+checkForWin [Filled winner] = Win winner
+checkForWin (x:y:xs)
+  | x == Empty  = NoWin
+  | y /= x      = NoWin
+  | otherwise   = checkForWin (y:xs)
 
 rows :: Board -> [Vector Square]
 rows board = (`Matrix.getRow` board) <$> [1..(Matrix.nrows board)]
