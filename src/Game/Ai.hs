@@ -8,12 +8,15 @@ type ScoredPosition = (Double, Position)
 type Score = Double
 type Depth = Int
 
-makeMove :: Player -> Board -> Position
-makeMove player board = snd $ bestScore scoredPositions
-  where scoredPositions = zip (scorePossibleMoves player 1 board) (Board.openPositions board)
+makeMove :: Player -> Board -> Maybe Position
+makeMove player board
+  | null openPositions = Nothing
+  | otherwise          = Just $ snd $ bestScore scoredPositions
+  where openPositions = Board.openPositions board
+        scoredPositions = zip (scorePossibleMoves player 1 board) openPositions
 
 bestScore :: [ScoredPosition] -> ScoredPosition
-bestScore = foldl (\score best -> if fst score > fst best then score else best) (-100000000000, (0,0))
+bestScore = foldl (\score best -> if fst score > fst best then score else best) (-100000, (0,0))
 
 scorePossibleMoves :: Player -> Depth -> Board -> [Score]
 scorePossibleMoves player depth board =

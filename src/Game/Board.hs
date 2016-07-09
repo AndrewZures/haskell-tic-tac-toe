@@ -25,4 +25,4 @@ get position board = board ! position
 
 nextPlayer :: Player -> Player
 nextPlayer Player1 = Player2
-nextPlayer _ = Player1
+nextPlayer _       = Player1
