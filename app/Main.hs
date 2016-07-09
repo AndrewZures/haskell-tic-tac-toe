@@ -1,5 +1,6 @@
 module Main where
 
+import Game.GameRunner (run)
 
 main :: IO ()
-main = putStrLn "hello"
+main = run
