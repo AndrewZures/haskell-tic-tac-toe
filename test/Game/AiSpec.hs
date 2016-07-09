@@ -24,6 +24,16 @@ spec = do
       let board = foldr (\b agg -> insert agg Player2 b) (newBoard 3 3) [(1,1),(1,2)]
       makeMove Player2 board `shouldBe` (1,3)
 
+    it "takes diagonal on fork attempt" $ do
+      let a = foldr (\b agg -> insert agg Player2 b) (newBoard 3 3) [(2,2), (3,3)]
+      let b = foldr (\b agg -> insert agg Player1 b) a [(1,1)]
+      makeMove Player1 b `shouldBe` (3,1)
+
+    it "forces defensive move" $ do
+      let a = foldr (\b agg -> insert agg Player2 b) (newBoard 3 3) [(1,2)]
+      let b = foldr (\b agg -> insert agg Player1 b) a [(3,1)]
+      makeMove Player1 b `shouldBe` (3,3)
+
     -- it "stuff" $ do
     --   let board = foldr (\b agg -> insert agg Player2 b) (newBoard 3 3) [(1,1),(3,3)]
     --   let updated = foldr (\b agg -> insert agg Player1 b) board [(2,2)]
