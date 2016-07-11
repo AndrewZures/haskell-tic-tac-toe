@@ -28,16 +28,3 @@ checkCommands input =
 getAiMove :: Maybe Position -> Position
 getAiMove (Just x) = x
 getAiMove _ = (1,1)
-
-getChoice :: String -> (Int, Int)
-getChoice input =
-  case input of
-    "1" -> (1,1)
-    "2" -> (1,2)
-    "3" -> (1,3)
-    "4" -> (2,1)
-    "5" -> (2,2)
-    "6" -> (2,3)
-    "7" -> (3,1)
-    "8" -> (3,2)
-    "9" -> (3,3)
